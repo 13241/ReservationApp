@@ -1,0 +1,10 @@
+.boldTitle{
+	font-size: 30px;
+	margin-bottom: 40px;
+	font-weight: bold;
+}
+.indentedParagraph{
+	margin-left: 30px;
+	line-height: 1.5;
+	margin-bottom: 20px;
+}
