@@ -78,7 +78,7 @@
 		}
 		if(isset($count) and $valid_encoding == pow(4, $count)-1)
 		{
-			//include_once "Validation.php";
+			include_once "Validation.php";
 		}
 		else
 		{
