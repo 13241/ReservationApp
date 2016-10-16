@@ -10,6 +10,28 @@
 			RESERVATION
 		</div>
 		
+		<div class = "errorMessage" id = 'errorReservation' hidden>
+			Veuillez entrer une destination
+			<br>
+			Veuillez entrer un nombre supérieur à 0 et inférieur à 10
+		</div>
+		
+		<script>
+			function showErrorMessage()
+			{
+				errorReservation.hidden = false;
+			}
+			function keepReservation()
+			{
+				destination.value = <?php echo (isset($_SESSION['destination'])) ? 
+					"'".strval($_SESSION['destination'])."'" : "''; destination.className = 'errorField'"; ?>;
+				place_number.value = <?php echo (isset($_SESSION['place_number'])) ? 
+					"'".strval($_SESSION['place_number'])."'" : "''; place_number.className = 'errorField'"; ?>;
+				insurance.checked = <?php echo (isset($_SESSION['insurance'])) ? 
+					$_SESSION['insurance'] : false; ?>;
+			}
+		</script>
+		
 		<div class = "indentedParagraph">
 			Le prix de la place est de 10 euros jusqu'à 12 ans et ensuite de 15 euros.
 			<br>
@@ -23,7 +45,7 @@
 						Destination
 					</td>
 					<td>
-						<input type = "text" name = "destination"/>
+						<input type = "text" name = 'destination' id = 'destination'/>
 					</td>
 				</tr>
 				<tr>
@@ -31,7 +53,7 @@
 						Nombre de places
 					</td>
 					<td>
-						<input type = "text" name = "place_number"/>
+						<input type = "text" name = 'place_number' id = 'place_number'/>
 					</td>
 				</tr>
 				<tr>
@@ -39,12 +61,12 @@
 						Assurance annulation
 					</td>
 					<td>
-						<input type = "checkbox" name= "insurance"/>
+						<input type = "checkbox" name = 'insurance' id = 'insurance' value = '1' />
 					</td>
 				</tr>
 			</table>
-			<input type = "submit" name = "submit_reservation" value = "Etape suivante"/>
-			<input type = "submit" name = "abort_reservation" value = "Annuler la reservation"/>
+			<input type = "submit" name = 'submit_reservation' value = "Etape suivante"/>
+			<input type = "submit" name = 'abort_reservation' value = "Annuler la reservation"/>
 		</form>
 	</body>
 </html>
