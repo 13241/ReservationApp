@@ -20,9 +20,6 @@
 			function showErrorMessage()
 			{
 				errorDetail.hidden = false;
-			}
-			function keepReservation()
-			{
 				<?php 
 					for($i = 0; $i < $_SESSION['place_number']; $i++)
 					{
@@ -31,6 +28,19 @@
 								"'".strval($_SESSION['name'][$i])."';" : "''; name$i.className = 'errorField';")."
 							age$i.value = ".((isset($_SESSION['age'][$i])) ?
 								"'".strval($_SESSION['age'][$i])."';" : "''; age$i.className = 'errorField';");
+					}
+				?>
+			}
+			function keepReservation()
+			{
+				<?php 
+					for($i = 0; $i < $_SESSION['place_number']; $i++)
+					{
+						echo "
+							name$i.value = ".((isset($_SESSION['name'][$i])) ?
+								"'".strval($_SESSION['name'][$i])."';" : "'';")."
+							age$i.value = ".((isset($_SESSION['age'][$i])) ?
+								"'".strval($_SESSION['age'][$i])."';" : "'';");
 					}
 				?>
 			}

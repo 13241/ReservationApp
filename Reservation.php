@@ -20,13 +20,19 @@
 			function showErrorMessage()
 			{
 				errorReservation.hidden = false;
-			}
-			function keepReservation()
-			{
 				destination.value = <?php echo (isset($_SESSION['destination'])) ? 
 					"'".strval($_SESSION['destination'])."'" : "''; destination.className = 'errorField'"; ?>;
 				place_number.value = <?php echo (isset($_SESSION['place_number'])) ? 
 					"'".strval($_SESSION['place_number'])."'" : "''; place_number.className = 'errorField'"; ?>;
+				insurance.checked = <?php echo (isset($_SESSION['insurance'])) ? 
+					$_SESSION['insurance'] : false; ?>;
+			}
+			function keepReservation()
+			{
+				destination.value = <?php echo (isset($_SESSION['destination'])) ? 
+					"'".strval($_SESSION['destination'])."'" : "'';"; ?>;
+				place_number.value = <?php echo (isset($_SESSION['place_number'])) ? 
+					"'".strval($_SESSION['place_number'])."'" : "'';"; ?>;
 				insurance.checked = <?php echo (isset($_SESSION['insurance'])) ? 
 					$_SESSION['insurance'] : false; ?>;
 			}

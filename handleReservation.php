@@ -34,11 +34,12 @@
 		if($valid_encoding == 0b11)
 		{
 			include_once "Detail.php";
+			echo "<script> keepReservation(); </script>";
 		}
 		else
 		{
 			include_once "Reservation.php";
-			echo "<script> showErrorMessage(); keepReservation(); </script>";
+			echo "<script> showErrorMessage(); </script>";
 		}
 	}
 	elseif(isset($_POST['return_to_reservation']))
@@ -84,7 +85,7 @@
 		else
 		{
 			include_once "Detail.php";
-			echo "<script> showErrorMessage(); keepReservation(); </script>";
+			echo "<script> showErrorMessage(); </script>";
 		}
 	}
 	elseif(isset($_POST['submit_validation']))
