@@ -5,7 +5,7 @@
 		<meta charset = "utf8"/>
 	</head>
 	
-	<body>
+	<body class = "greyApp">
 		<div class = "boldTitle">
 			RESERVATION
 		</div>
@@ -38,8 +38,8 @@
 			Le prix de l'assurance annulation est de 20 euros quel que soit le nombre de voyageurs.
 		</div>
 		
-		<form method = "POST" class = "indentedParagraph" action="handleReservation.php">
-			<table>
+		<form method = "POST" class = "indentedForm" action="handleReservation.php">
+			<table class = "bordered">
 				<tr>
 					<td>
 						Destination

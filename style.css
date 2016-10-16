@@ -8,13 +8,27 @@
 	line-height: 1.5;
 	margin-bottom: 20px;
 }
+.indentedForm{
+	margin-left: 30px;
+	line-height: 1.5;
+	margin-bottom: 20px;
+}
 .errorMessage{
 	font-size: 12px;
 	margin-left: 15px;
 	margin-top: -35px;
 	margin-bottom: 5px;
+	border-left: 6px solid #ff6666;
 }
 .errorField{
-	background-color: #dd99ff;
-	color: #880000;
+	background-color: #ff6666;
+	color: #0000ff;
+}
+.bordered{
+	border-style: solid;
+	border-color: #999999;
+	background-color: #bbbbbb;
+}
+.greyApp{
+	background-color: #eeeeee;
 }

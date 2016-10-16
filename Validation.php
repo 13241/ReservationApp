@@ -5,13 +5,13 @@
 		<meta charset = "utf8"/>
 	</head>
 	
-	<body>
+	<body class = "greyApp">
 		<div class = "boldTitle">
 			VALIDATION DES RESERVATIONS
 		</div>
 		
-		<form method = "POST" class = "indentedParagraph" action="handleReservation.php">
-			<table>
+		<form method = "POST" class = "indentedForm" action="handleReservation.php">
+			<table class = "bordered">
 				<tr>
 					<td>
 						Destination

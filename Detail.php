@@ -5,7 +5,7 @@
 		<meta charset = "utf8"/>
 	</head>
 	
-	<body>
+	<body class = "greyApp">
 		<div class = "boldTitle">
 			DETAIL DES RESERVATIONS
 		</div>
@@ -36,12 +36,12 @@
 			}
 		</script>
 		
-		<form method = "POST" class = "indentedParagraph" action="handleReservation.php">
+		<form method = "POST" class = "indentedForm" action="handleReservation.php">
 			<?php
 				for($i = 0; $i < $_SESSION['place_number']; $i++)
 				{
 					echo "
-						<table>
+						<table class = 'bordered'>
 							<tr>
 								<td>
 									Nom
