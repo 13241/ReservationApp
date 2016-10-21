@@ -48,7 +48,8 @@
 		
 		<form method = "POST" class = "indentedForm" action="handleReservation.php">
 			<?php
-				for($i = 0; $i < $_SESSION['place_number']; $i++)
+				$list_persons = $reservation.getListPersons();
+				for($i = 0; $i < count($list_persons); $i++)
 				{
 					echo "
 						<table class = 'bordered'>
