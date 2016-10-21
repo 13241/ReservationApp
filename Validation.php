@@ -17,7 +17,7 @@
 						Destination
 					</td>
 					<td>
-						<?php echo $_SESSION['destination']; ?>
+						<?php echo $reservation->getDestination(); ?>
 					</td>
 				</tr>
 				<tr>
@@ -25,11 +25,12 @@
 						Nombre de places
 					</td>
 					<td>
-						<?php echo $_SESSION['place_number']; ?>
+						<?php echo $reservation->getPlaceNumber(); ?>
 					</td>
 				</tr>
 				<?php
-					for($i = 0; $i < $_SESSION['place_number']; $i++)
+					$list_persons = $reservation->getListPersons();
+					for($i = 0; $i < $reservation->getPlaceNumber(); $i++)
 					{
 						echo "
 								<tr>
@@ -37,7 +38,7 @@
 										Nom
 									</td>
 									<td>
-										".$_SESSION['name'][$i]."
+										".$list_persons[$i]->getName()."
 									</td>
 								</tr>
 								<tr>
@@ -45,7 +46,7 @@
 										Age
 									</td>
 									<td>
-										".$_SESSION['age'][$i]."
+										".$list_persons[$i]->getAge()."
 									</td>
 								</tr>
 							";
@@ -56,7 +57,7 @@
 						Assurance annulation
 					</td>
 					<td>
-						<?php echo ($_SESSION['insurance']) ? "OUI" : "NON"; ?>
+						<?php echo ($reservation->getInsurance()) ? "OUI" : "NON"; ?>
 					</td>
 				</tr>
 			</table>

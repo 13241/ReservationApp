@@ -20,21 +20,8 @@
 			function showErrorMessage()
 			{
 				errorReservation.hidden = false;
-				destination.value = <?php echo (isset($_SESSION['destination'])) ? 
-					"'".strval($_SESSION['destination'])."'" : "''; destination.className = 'errorField'"; ?>;
-				place_number.value = <?php echo (isset($_SESSION['place_number'])) ? 
-					"'".strval($_SESSION['place_number'])."'" : "''; place_number.className = 'errorField'"; ?>;
-				insurance.checked = <?php echo (isset($_SESSION['insurance'])) ? 
-					$_SESSION['insurance'] : false; ?>;
-			}
-			function keepReservation()
-			{
-				destination.value = <?php echo (isset($_SESSION['destination'])) ? 
-					"'".strval($_SESSION['destination'])."'" : "'';"; ?>;
-				place_number.value = <?php echo (isset($_SESSION['place_number'])) ? 
-					"'".strval($_SESSION['place_number'])."'" : "'';"; ?>;
-				insurance.checked = <?php echo (isset($_SESSION['insurance'])) ? 
-					$_SESSION['insurance'] : false; ?>;
+				<?php echo ((null == $reservation->getDestination()) ? "destination.className = 'errorField';" : "").
+				((null == $reservation->getPlaceNumber()) ? "place_number.className = 'errorField';" : ""); ?>
 			}
 		</script>
 		
@@ -51,7 +38,9 @@
 						Destination
 					</td>
 					<td>
-						<input type = "text" name = 'destination' id = 'destination'/>
+						<input type = "text" name = 'destination' id = 'destination' 
+							value = <?php echo (null != $reservation->getDestination()) ? 
+							strval($reservation->getDestination()) : "''"; ?> />
 					</td>
 				</tr>
 				<tr>
@@ -59,7 +48,9 @@
 						Nombre de places
 					</td>
 					<td>
-						<input type = "text" name = 'place_number' id = 'place_number'/>
+						<input type = "text" name = 'place_number' id = 'place_number'
+							value = <?php echo (null != $reservation->getPlaceNumber()) ?
+							strval($reservation->getPlaceNumber()) : "''"; ?> />
 					</td>
 				</tr>
 				<tr>
@@ -67,12 +58,17 @@
 						Assurance annulation
 					</td>
 					<td>
-						<input type = "checkbox" name = 'insurance' id = 'insurance' value = '1' />
+						<input type = "checkbox" name = 'insurance' id = 'insurance' value = '1' 
+							<?php echo ($reservation->getInsurance()) ? "checked" : ""; ?> />
 					</td>
 				</tr>
 			</table>
 			<input type = "submit" name = 'submit_reservation' value = "Etape suivante"/>
 			<input type = "submit" name = 'abort_reservation' value = "Annuler la reservation"/>
 		</form>
+		
+		<script>
+			<?php echo ($showErrorMessage) ? "showErrorMessage();" : ""; ?>
+		</script>
 	</body>
 </html>
