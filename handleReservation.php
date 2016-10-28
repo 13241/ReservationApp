@@ -124,4 +124,5 @@
 //problematique du dropdatabase => htmlentities() et html_entity_decode() quand les utiliser?
 //tester le dropdatabase en réel sans la protection et ensuite avec.
 //a quoi sert session_commit()
+//vue et message Objet
 ?>
