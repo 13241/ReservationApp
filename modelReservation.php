@@ -1,6 +1,6 @@
 ﻿<?php
 	/**
-	* Represents a reservation with each of its parameters
+	* represents a reservation with each of its parameters
 	*/
 	class reservation
 	{
@@ -13,9 +13,9 @@
 		/**
 		* constructor
 		* @param str destination name of destination
-		* @param int place_number number of persons for this reservation
-		* @param bool insurance if the user wants an insurance
-		* @param array(person) list_persons contains objects representing a person concerned with this reservation
+		* @param int place_number : number of persons for this reservation
+		* @param bool insurance : if the user wants an insurance
+		* @param array(person) : list_persons contains objects representing a person concerned with this reservation
 		*/
 		public function __construct($destination="", $place_number=0, $insurance=0, $list_persons=array())
 		{
@@ -79,7 +79,7 @@
 		
 		/**
 		* set the value of attribute destination
-		* @param str destination name of destination
+		* @param str destination : name of destination
 		* @return void
 		*/
 		public function setDestination($destination)
@@ -89,7 +89,7 @@
 		
 		/**
 		* set the value of attribute place_number
-		* @param int place_number number of persons for this reservation
+		* @param int place_number : number of persons for this reservation
 		* @return void
 		*/
 		public function setPlaceNumber($place_number)
@@ -99,7 +99,7 @@
 		
 		/**
 		* set the value of attribute insurance
-		* @param bool insurance if the user wants an insurance
+		* @param bool insurance : if the user wants an insurance
 		* @return void
 		*/
 		public function setInsurance($insurance)
@@ -109,7 +109,7 @@
 		
 		/**
 		* add a person into attribute list_persons
-		* @param person person a person concerned with this reservation
+		* @param person person : a person concerned with this reservation
 		* @return void
 		*/
 		public function addPerson($person)
