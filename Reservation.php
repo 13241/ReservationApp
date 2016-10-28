@@ -3,6 +3,7 @@
 		<title> Reservation </title>
 		<LINK rel = stylesheet href = "style.css"/>
 		<meta charset = "utf8"/>
+		<meta name = "author" content = "Abeloos Damien 13241"/>
 	</head>
 	
 	<body class = "greyApp">

@@ -1,5 +1,10 @@
 ﻿<?php
 	/**
+	* @author Abeloos Damien 13241
+	*/
+	
+	
+	/**
 	* represents a reservation with each of its parameters
 	*/
 	class reservation

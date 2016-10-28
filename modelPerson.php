@@ -1,5 +1,10 @@
 ﻿<?php
 	/**
+	* @author Abeloos Damien 13241
+	*/
+	
+	
+	/**
 	* represents a person with its name and age
 	*/
 	class person
