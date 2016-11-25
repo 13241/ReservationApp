@@ -20,7 +20,8 @@
 		* @param str destination name of destination
 		* @param int place_number : number of persons for this reservation
 		* @param bool insurance : if the user wants an insurance
-		* @param array(person) : list_persons contains objects representing a person concerned with this reservation
+		* @param array(person) : list_persons contains objects representing a person concerned
+		*	with this reservation
 		*/
 		public function __construct($destination="", $place_number=0, $insurance=0, $list_persons=array())
 		{
@@ -130,6 +131,31 @@
 		{
 			unset($this->list_persons);
 			$this->list_persons = array();
+		}
+		
+		/**
+		* get the price of the reservation
+		* @return int price
+		*/
+		public function getPrice()
+		{
+			$price = 0;
+			foreach($this->list_persons as $person)
+			{
+				if($person->getAge()>12)
+				{
+					$price += 15;
+				}
+				else
+				{
+					$price += 10;
+				}
+			}
+			if($this->insurance)
+			{
+				$price += 20;
+			}
+			return $price;
 		}
 	}
 ?>

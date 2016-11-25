@@ -32,7 +32,7 @@
 			Le prix de l'assurance annulation est de 20 euros quel que soit le nombre de voyageurs.
 		</div>
 		
-		<form method = "POST" class = "indentedForm" action="handleReservation.php">
+		<form method = "POST" class = "indentedForm" action="router.php">
 			<table class = "bordered">
 				<tr>
 					<td>
@@ -64,8 +64,10 @@
 					</td>
 				</tr>
 			</table>
-			<input type = "submit" name = 'submit_reservation' value = "Etape suivante"/>
-			<input type = "submit" name = 'abort_reservation' value = "Annuler la reservation"/>
+			<input type = "submit" name = 'submit_reservation' formaction = "router.php?case=submit_reservation"
+				value = "Etape suivante"/>
+			<input type = "submit" name = 'abort_reservation' formaction = "router.php?case=abort_reservation" 
+				value = "Annuler la reservation"/>
 		</form>
 		
 		<script>

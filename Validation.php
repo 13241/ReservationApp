@@ -11,7 +11,7 @@
 			VALIDATION DES RESERVATIONS
 		</div>
 		
-		<form method = "POST" class = "indentedForm" action="handleReservation.php">
+		<form method = "POST" class = "indentedForm" action="router.php">
 			<table class = "bordered">
 				<tr>
 					<td>
@@ -62,9 +62,12 @@
 					</td>
 				</tr>
 			</table>
-			<input type = "submit" name = 'submit_validation' value = "Confirmer"/>
-			<input type = "submit" name = 'return_to_detail' value = "Retour a la page precedente"/>
-			<input type = "submit" name = 'abort_reservation' value = "Annuler la reservation"/>
+			<input type = "submit" name = 'submit_validation' formaction = "router.php?case=submit_validation" 
+				value = "Confirmer"/>
+			<input type = "submit" name = 'return_to_detail' formaction = "router.php?case=return_to_detail" 
+				value = "Retour a la page precedente"/>
+			<input type = "submit" name = 'abort_reservation' formaction = "router.php?case=abort_reservation" 
+				value = "Annuler la reservation"/>
 		</form>
 	</body>
 </html>

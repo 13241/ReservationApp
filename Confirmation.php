@@ -14,11 +14,12 @@
 		<div class = "indentedParagraph">
 			Votre demande a bien été enregistrée.
 			<br>
-			Merci de bien vouloir verser la somme de 45 euros sur le compte 000-000000-00
+			Merci de bien vouloir verser la somme de <?php echo $reservation->getPrice(); ?> euros sur le compte 000-000000-00
 		</div>
 		
-		<form method = "POST" class = "indentedForm" action="handleReservation.php">
-			<input type = "submit" name = 'end_reservation' value = "Retour a la page d'accueil"/>
+		<form method = "POST" class = "indentedForm" action="router.php">
+			<input type = "submit" name = 'end_reservation' formaction = "router.php?case=end_reservation"
+				value = "Retour a la page d'accueil"/>
 		</form>
 	</body>
 </html>
