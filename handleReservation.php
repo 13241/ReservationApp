@@ -39,6 +39,7 @@
 			}
 			include_once "Reservation.php";
 			break;
+			
 		//first step form (Reservation) : destination, number of places, insurance
 		case "submit_reservation":
 			//2 bits validity check
@@ -77,10 +78,12 @@
 				include_once "Reservation.php";
 			}
 			break;
+		
 		//return to first step : Reservation
 		case "return_to_reservation":
 			include_once "Reservation.php";
 			break;
+		
 		//second step form (Detail) : n * (name, age)
 		case "submit_detail":
 			//2 * n bits validity check
@@ -136,16 +139,19 @@
 				include_once "Detail.php";
 			}
 			break;
+		
 		//third step form (validation)
 		case "submit_validation":
 			//go to fourth step, terminate session
 			include_once "Confirmation.php";
 			session_destroy();
 			break;
+		
 		//return to second step (detail)
 		case "return_to_detail":
 			include_once "Detail.php";
 			break;
+		
 		//default
 		default:
 			//go to first step
