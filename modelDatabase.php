@@ -125,11 +125,93 @@
 		
 		/**
 		* delete the reservation with primary key "no"
-		* return void
+		* @param int no : primary key of the desired reservation
+		* @return void
 		*/
 		public static function removeReservation($no)
 		{
 			$pdo->exec("DELETE FROM reservations WHERE no = $no;") or exit(mysql_error());
+		}
+		
+		/**
+		* get data from reservations with primary key "no" 
+		* or get all data from reservations
+		* @param int no : primary key of the desired reservation
+		* @return PDOStatement object
+		*/
+		public static function selectReservation($no=0)
+		{
+			if($no != 0)
+			{
+				return $pdo->query("SELECT destination, place_number, insurance, price FROM reservations WHERE no = $no;");	
+			}
+			else
+			{
+				return $pdo->query("SELECT * FROM reservations;");
+			}
+		}
+		
+		/**
+		* get data from people with foreign key "reservation_no"
+		* @param int no : foreign key of the desired people (corresponding to the reservation "no")
+		* @return PDOStatement object
+		*/
+		public static function selectReservationPeople($reservation_no=0)
+		{
+			if($reservation_no != 0)
+			{
+				return $pdo->query("SELECT id, name, age FROM people WHERE reservation_no = $reservation_no;");
+			}
+			else
+			{
+				return $pdo->query("SELECT * FROM people;");
+			}
+		}
+		
+		/**
+		* update a row in reservations with primary key "no"
+		* @param int no : primary key of the desired reservation
+		* @param str destination : name of the destination
+		* @param int place_number : nombre de participants
+		* @param bool insurance : assurance annulation
+		* @param int price : cost of the reservation
+		* @return void
+		*/
+		public static function updateReservation($no, $destination, $place_number, $insurance, $price)
+		{
+			$statement = $pdo->prepare(
+				"UPDATE reservations SET
+					destination = :destination,
+					place_number = :place_number,
+					insurance = :insurance,
+					price = :price WHERE no = $no;"
+			);
+			$statement->execute(array(
+				'destination' => $destination,
+				'place_number' => $place_number,
+				'insurance' => $insurance,
+				'price' => $price
+			));
+		}
+		
+		/**
+		* update a row in people with primary key "id"
+		* @param int id : primary key of the desired person
+		* @param str name : name of the person
+		* @param int age : age of the person
+		* @return void
+		*/
+		public static function updatePeople($id, $name, $age)
+		{
+			$statement = $pdo->prepare(
+				"UPDATE people SET
+					name = :name,
+					age = :age WHERE id = $id;"
+			);
+			$statement->execute(array(
+				'name' => $name,
+				'age' => $age
+			));
 		}
 	}
 ?>
