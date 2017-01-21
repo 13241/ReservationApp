@@ -17,7 +17,7 @@
 		
 		/**
 		* constructor
-		* @param str destination name of destination
+		* @param str destination : name of destination
 		* @param int place_number : number of persons for this reservation
 		* @param bool insurance : if the user wants an insurance
 		* @param array(person) : list_persons contains objects representing a person concerned
