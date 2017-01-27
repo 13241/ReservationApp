@@ -30,20 +30,21 @@
 		{
 			try
 			{
-				if($pdo == NULL or $pdodb_name != "default")
+				if(self::$pdo == NULL or $pdodb_name != "default")
 				{
-					$cur_host = $host;
-					$cur_pdodb_name = $pdodb_name;
-					$cur_username = $username;
-					$cur_password = $password;
-					$pdo = new PDO("mysql:host = $cur_host; charset = utf8", $cur_username, $cur_password);
-					$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					$pdo->exec("CREATE DATABASE IF NOT EXISTS $cur_pdodb_name");
-					createReservationTable();
-					createPeopleTable();
+					self::$cur_host = $host;
+					self::$cur_pdodb_name = $pdodb_name;
+					self::$cur_username = $username;
+					self::$cur_password = $password;
+					self::$pdo = new PDO("mysql:host = ".self::$cur_host, self::$cur_username, self::$cur_password);
+					self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					self::$pdo->exec("CREATE DATABASE IF NOT EXISTS ".self::$cur_pdodb_name);
+					self::$pdo->exec("USE ".self::$cur_pdodb_name);
+					self::createReservationTable();
+					self::createPeopleTable();
 				}
-				$pdo->exec("USE $cur_pdodb_name");
-				return $pdo;
+				self::$pdo->exec("USE ".self::$cur_pdodb_name);
+				return self::$pdo;
 			}
 			catch(Exception $e)
 			{
@@ -58,14 +59,14 @@
 		*/
 		private static function createReservationTable()
 		{
-			$pdo->exec(
+			self::$pdo->exec(
 				"CREATE TABLE IF NOT EXISTS reservations(
 					no INT NOT NULL AUTO_INCREMENT,
 					destination varchar(255) NOT NULL,
 					place_number INT(3) NOT NULL,
 					insurance TINYINT(1) NOT NULL DEFAULT 0,
 					price INT(4) NOT NULL,
-					PRIMARY KEY (id)
+					PRIMARY KEY (no)
 				) ENGINE = INNODB;"
 			);
 		}
@@ -76,7 +77,7 @@
 		*/
 		private static function createPeopleTable()
 		{
-			$pdo->exec(
+			self::$pdo->exec(
 				"CREATE TABLE IF NOT EXISTS people(
 					id INT NOT NULL AUTO_INCREMENT,
 					name VARCHAR(255) NOT NULL,
@@ -98,8 +99,8 @@
 		public static function addReservation($destination, $place_number, $insurance, $price, $list_persons)
 		{
 			//insert data into "reservations"
-			$statement = $pdo->prepare(
-				"INSERT INTO reservations(id, destination, place_number, insurance, price)
+			$statement = self::$pdo->prepare(
+				"INSERT INTO reservations(no, destination, place_number, insurance, price)
 					VALUES (NULL, :destination, :place_number, :insurance, :price);"
 			);
 			$statement->execute(array(
@@ -110,10 +111,10 @@
 			));
 			
 			//get the primary key from the last reservation
-			$reservation_no = $pdo->query("SELECT LAST_INSERT_ID();");
+			$reservation_no = self::$pdo->query("SELECT LAST_INSERT_ID();");
 			
 			//insert data into "people" for this reservation
-			$statement = $pdo->prepare(
+			$statement = self::$pdo->prepare(
 				"INSERT INTO people(id, name, age, reservation_no)
 					VALUES :people;"
 			);
@@ -132,7 +133,7 @@
 		*/
 		public static function removeReservation($no)
 		{
-			$pdo->exec("DELETE FROM reservations WHERE no = $no;") or exit(mysql_error());
+			self::$pdo->exec("DELETE FROM reservations WHERE no = $no;") or exit(mysql_error());
 		}
 		
 		/**
@@ -145,11 +146,11 @@
 		{
 			if($no != 0)
 			{
-				return $pdo->query("SELECT destination, place_number, insurance, price FROM reservations WHERE no = $no;");	
+				return self::$pdo->query("SELECT destination, place_number, insurance, price FROM reservations WHERE no = $no LIMIT 1;");	
 			}
 			else
 			{
-				return $pdo->query("SELECT * FROM reservations;");
+				return self::$pdo->query("SELECT * FROM reservations;");
 			}
 		}
 		
@@ -162,11 +163,11 @@
 		{
 			if($reservation_no != 0)
 			{
-				return $pdo->query("SELECT id, name, age FROM people WHERE reservation_no = $reservation_no;");
+				return self::$pdo->query("SELECT id, name, age FROM people WHERE reservation_no = $reservation_no;");
 			}
 			else
 			{
-				return $pdo->query("SELECT * FROM people;");
+				return self::$pdo->query("SELECT * FROM people;");
 			}
 		}
 		
@@ -181,7 +182,7 @@
 		*/
 		public static function updateReservation($no, $destination, $place_number, $insurance, $price)
 		{
-			$statement = $pdo->prepare(
+			$statement = self::$pdo->prepare(
 				"UPDATE reservations SET
 					destination = :destination,
 					place_number = :place_number,
@@ -205,7 +206,7 @@
 		*/
 		public static function updatePeople($id, $name, $age)
 		{
-			$statement = $pdo->prepare(
+			$statement = self::$pdo->prepare(
 				"UPDATE people SET
 					name = :name,
 					age = :age WHERE id = $id;"

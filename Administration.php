@@ -13,7 +13,7 @@
 		
 		<form method = "POST" class = "indentedForm" action = "router.php">
 			<?php
-				
+				//upon clicking on a reservation row, display a new board containing the people in this reservation
 			?>
 		</form>
 	</body>

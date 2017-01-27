@@ -32,14 +32,6 @@
 		}
 		
 		/**
-		* get the value of the primary key of the reservation in the database. 
-		*/
-		public function getNo()
-		{
-			return $this->no;
-		}
-		
-		/**
 		* get the value from attribute destination, or null if not string || empty
 		* @return str destination || null
 		*/
