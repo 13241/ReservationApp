@@ -39,6 +39,8 @@
 					$pdo = new PDO("mysql:host = $cur_host; charset = utf8", $cur_username, $cur_password);
 					$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					$pdo->exec("CREATE DATABASE IF NOT EXISTS $cur_pdodb_name");
+					createReservationTable();
+					createPeopleTable();
 				}
 				$pdo->exec("USE $cur_pdodb_name");
 				return $pdo;
@@ -54,7 +56,7 @@
 		* simple mysql statement to create a table for multiple reservations
 		* @return void
 		*/
-		public static function createReservationTable()
+		private static function createReservationTable()
 		{
 			$pdo->exec(
 				"CREATE TABLE IF NOT EXISTS reservations(
@@ -72,7 +74,7 @@
 		* simple mysql statement to create a table for multiple people (people in this table cannot exist without a reservation)
 		* @return void
 		*/
-		public static function createPeopleTable()
+		private static function createPeopleTable()
 		{
 			$pdo->exec(
 				"CREATE TABLE IF NOT EXISTS people(

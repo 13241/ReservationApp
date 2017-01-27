@@ -4,9 +4,10 @@
 	*/
 	
 	
-	/* initialization and/or session recovery */
 	include_once "modelReservation.php";
 	include_once "modelPerson.php";
+	
+	/* initialization and/or session recovery */
 	if(session_status() == PHP_SESSION_NONE)
 	{
 		session_start();
@@ -22,7 +23,7 @@
 		$_SESSION['reservation'] = serialize($reservation);
 	}
 	
-	/* views handlings */
+	/* views handling */
 	$case = "";
 	if(isset($_GET['case']))
 	{
@@ -163,8 +164,4 @@
 	{
 		$_SESSION['reservation'] = serialize($reservation);
 	}
-//problematique du dropdatabase => htmlentities() et html_entity_decode() quand les utiliser?
-//tester le dropdatabase en réel sans la protection et ensuite avec.
-//a quoi sert session_commit()
-//vue et message Objet
 ?>
