@@ -31,6 +31,7 @@
 							null == $list_persons[$i]->getAge()) ? "age$i.className = 'errorField';" : "");
 					}
 				?>
+				return;
 			}
 		</script>
 		

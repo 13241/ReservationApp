@@ -43,18 +43,50 @@
 					self::createReservationTable();
 					self::createPeopleTable();
 				}
-				self::$pdo->exec("USE ".self::$cur_pdodb_name);
-				return self::$pdo;
+				else
+				{
+					self::$pdo->exec("USE ".self::$cur_pdodb_name);
+				}
 			}
 			catch(Exception $e)
 			{
 				die('Erreur : '.$e->getMessage());
-				return NULL;
 			}
 		}
 		
 		/**
-		* simple mysql statement to create a table for multiple reservations
+		* Provide better terms to display headers from the reservation database
+		* @return str : header name
+		*/
+		public static function getHeaderAlias($header)
+		{
+			switch($header)
+			{
+				case "no":
+					return "n°";
+				case "destination":
+					return "Destination";
+				case "place_number":
+					return "Places";
+				case "insurance":
+					return "Insurance";
+				case "price":
+					return "Cost";
+				case "name":
+					return "Name";
+				case "age":
+					return "Age";
+				case "id":
+					return "n°";
+				case "reservation_no":
+					return "Reservation n°";
+				default:
+					return NULL;
+			}
+		}
+		
+		/**
+		* mysql statement to create a table for multiple reservations
 		* @return void
 		*/
 		private static function createReservationTable()
@@ -72,7 +104,7 @@
 		}
 		
 		/**
-		* simple mysql statement to create a table for multiple people (people in this table cannot exist without a reservation)
+		* mysql statement to create a table for multiple people (people in this table cannot exist without a reservation)
 		* @return void
 		*/
 		private static function createPeopleTable()
@@ -111,19 +143,28 @@
 			));
 			
 			//get the primary key from the last reservation
-			$reservation_no = self::$pdo->query("SELECT LAST_INSERT_ID();");
-			
+			$query = self::$pdo->query("SELECT LAST_INSERT_ID();");
+			$fetch = $query->fetch(PDO::FETCH_NUM);
+			$reservation_no = $fetch[0];
 			//insert data into "people" for this reservation
-			$statement = self::$pdo->prepare(
-				"INSERT INTO people(id, name, age, reservation_no)
-					VALUES :people;"
-			);
-			$people = "";
+			$strStatement = "INSERT INTO people(id, name, age, reservation_no)
+				VALUES";
+			$peopleArray = array();
 			for($i = 0; $i < count($list_persons); $i++)
 			{
-				$people .= "(NULL,'".$list_persons[$i]->getName()."',".$list_persons[$i]->getAge().",".$reservation_no.")";
+				$peopleArray[] = "(NULL,'".$list_persons[$i]->getName()."',".$list_persons[$i]->getAge().",".$reservation_no.")";
 			}
-			$statement->execute(array('people' => $people));
+			try
+			{
+				$people = implode(",", $peopleArray);
+				$strStatement .= $people.";";
+				$statement = self::$pdo->prepare($strStatement);
+				$statement->execute(array());
+			}
+			catch(Exception $e)
+			{
+				die('Erreur : '.$e->getMessage());
+			}
 		}
 		
 		/**

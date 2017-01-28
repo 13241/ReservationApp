@@ -23,6 +23,7 @@
 				errorReservation.hidden = false;
 				<?php echo ((null == $reservation->getDestination()) ? "destination.className = 'errorField';" : "").
 				((null == $reservation->getPlaceNumber()) ? "place_number.className = 'errorField';" : ""); ?>
+				return;
 			}
 		</script>
 		

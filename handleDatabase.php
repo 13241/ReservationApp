@@ -18,7 +18,7 @@
 	try
 	{
 		//create database & connection to it
-		$pdo = rdu::connectPdodb($pdodb_name, $host, $username, $password);
+		rdu::connectPdodb($pdodb_name, $host, $username, $password);
 		
 		/* views handling */
 		$case = "";

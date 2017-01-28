@@ -34,6 +34,24 @@
 	border-color: #999999;
 	background-color: #bbbbbb;
 }
+.lightBordered{
+	border-style: solid;
+	border-color: #999999;
+	border-width: 1px;
+	background-color: #dddddd;
+}
 .greyApp{
 	background-color: #eeeeee;
+}
+.mouseOver{
+	border-style: solid;
+	border-color: #999999;
+	border-width: 1px;
+	background-color: #ff6666;
+}
+.clicked{
+	border-style: solid;
+	border-color: #999999;
+	border-width: 1px;
+	background-color: #cc0000;
 }

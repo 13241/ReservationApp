@@ -6,6 +6,14 @@
 	
 	include_once "modelReservation.php";
 	include_once "modelPerson.php";
+	include_once "modelDatabase.php";
+	
+	/* default connection parameters */
+	class_alias("reservationDbUtility", "rdu");
+	$pdodb_name = "myReservationApp";
+	$host = "localhost";
+	$username = "root";
+	$password = "";
 	
 	/* initialization and/or session recovery */
 	if(session_status() == PHP_SESSION_NONE)
@@ -143,6 +151,18 @@
 		
 		//third step form (validation)
 		case "submit_validation":
+			rdu::connectPdodb($pdodb_name, $host, $username, $password);
+			if(isset($_SESSION['no']))
+			{
+				rdu::updateReservation($_SESSION['no'], $reservation->getDestination(), $reservation->getPlaceNumber(),
+					$reservation->getInsurance(), $reservation->getPrice());
+				//UPDATE PEOPLE ???
+			}
+			else
+			{
+				rdu::addReservation($reservation->getDestination(), $reservation->getPlaceNumber(),
+					$reservation->getInsurance(), $reservation->getPrice(), $reservation->getListPersons());
+			}
 			//go to fourth step, terminate session
 			include_once "Confirmation.php";
 			session_destroy();
