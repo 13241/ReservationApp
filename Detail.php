@@ -48,7 +48,8 @@
 								</td>
 								<td>
 									<input type = 'text' name = 'name[]' id = 'name$i' value = ".
-										((count($list_persons) == $reservation->getPlaceNumber()) ? "'".
+										((count($list_persons) == $reservation->getPlaceNumber()
+										or $i < count($list_persons)) ? "'".
 										strval($list_persons[$i]->getName())."'" : "''")." />
 								</td>
 							</tr>
@@ -58,7 +59,8 @@
 								</td>
 								<td>
 									<input type = 'text' name = 'age[]' id = 'age$i' value = ".
-										((count($list_persons) == $reservation->getPlaceNumber()) ? "'".
+										((count($list_persons) == $reservation->getPlaceNumber()
+										or $i < count($list_persons)) ? "'".
 										strval($list_persons[$i]->getAge())."'" : "''")." />
 								</td>
 							</tr>

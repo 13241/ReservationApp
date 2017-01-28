@@ -4,12 +4,7 @@
 	*/
 	
 	
-	include_once "modelReservation.php";
-	include_once "modelPerson.php";
-	include_once "modelDatabase.php";
-	
 	/* default connection parameters */
-	class_alias("reservationDbUtility", "rdu");
 	$pdodb_name = "myReservationApp";
 	$host = "localhost";
 	$username = "root";
@@ -41,11 +36,8 @@
 	{
 		//abort reservation : reset reservation
 		case "abort_reservation":
-			if(session_id())
-			{
-				session_destroy();
-				$reservation = new reservation;
-			}
+			session_destroy();
+			$reservation = new reservation;
 			include_once "Reservation.php";
 			break;
 			
@@ -154,17 +146,91 @@
 			rdu::connectPdodb($pdodb_name, $host, $username, $password);
 			if(isset($_SESSION['no']))
 			{
+				//update reservation table
 				rdu::updateReservation($_SESSION['no'], $reservation->getDestination(), $reservation->getPlaceNumber(),
 					$reservation->getInsurance(), $reservation->getPrice());
-				//UPDATE PEOPLE ???
+				
+				//alter people table
+				$data_people = rdu::selectReservationPeople($_SESSION['no']);
+				$previous_people_nc = array();
+				$previous_people_na = array();
+				$previous_people = array();
+				//create specific array with people previously in table "people"
+				foreach($data_people as $row)
+				{
+					$person = array(
+						'name' => $row['name']
+					);
+					$previous_people_nc[intval($row['id'])] = serialize($person);
+					$person['count'] = count(array_keys($previous_people_nc, serialize($person)));
+					$previous_people_na[intval($row['id'])] = serialize($person);
+					$person['age'] = intval($row['age']);
+					$previous_people[intval($row['id'])] = $person;
+				}
+				
+				$list_persons = $reservation->getListPersons();
+				$current_people_nc = array();
+				$current_people_na = array();
+				$current_people = array();
+				//create specific array with people currently in the reservation
+				foreach($list_persons as $row)
+				{
+					$person = array(
+						'name' => $row->getName()
+					);
+					$current_people_nc[] = serialize($person);
+					$person['count'] = count(array_keys($current_people_nc, serialize($person)));
+					$current_people_na[] = serialize($person);
+					$person['age'] = $row->getAge();
+					$current_people[] = $person;
+				}
+				
+				//use of the specific arrays to determine which people are modified, added, deleted
+				$modified_keys = array_keys(array_intersect($previous_people_na, $current_people_na));
+				$modified_tkeys = array_keys(array_intersect($current_people_na, $previous_people_na));
+				$added_keys = array_keys(array_diff($current_people_na, $previous_people_na));
+				$deleted_keys = array_keys(array_diff($previous_people_na, $current_people_na));
+				
+				//delete unused people from table "people"
+				foreach($deleted_keys as $key)
+				{
+					rdu::removePeople($key);
+				}
+				
+				//add new people in table "people"
+				foreach($added_keys as $key)
+				{
+					rdu::addPeople($_SESSION['no'], $current_people[$key]['name'], $current_people[$key]['age']);
+				}
+				
+				//update table "people" for each existing id reused
+				foreach($modified_keys as $key)
+				{
+					foreach($modified_tkeys as $tkey)
+					{
+						if($previous_people_na[$key] == $current_people_na[$tkey])
+						{
+							$previous_people[$key]['age'] = $current_people[$tkey]['age'];
+							$modified_tkeys = array_diff($modified_tkeys, array($tkey));
+							break;
+						}
+					}
+					rdu::updatePeople($key, $previous_people[$key]['name'], $previous_people[$key]['age']);
+				}
+				//go to database management
+				$included = "handleDatabase.php";
 			}
 			else
 			{
+				//insert into reservation table
 				rdu::addReservation($reservation->getDestination(), $reservation->getPlaceNumber(),
 					$reservation->getInsurance(), $reservation->getPrice(), $reservation->getListPersons());
+					
+				//go to fourth step, terminate session
+				$included = "Confirmation.php";
 			}
 			//go to fourth step, terminate session
-			include_once "Confirmation.php";
+			include_once $included;
 			session_destroy();
 			break;
 		

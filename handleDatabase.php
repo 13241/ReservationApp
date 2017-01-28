@@ -4,12 +4,7 @@
 	*/
 	
 	
-	include_once "modelReservation.php";
-	include_once "modelPerson.php";
-	include_once "modelDatabase.php";
-	
 	/* default connection parameters */
-	class_alias("reservationDbUtility", "rdu");
 	$pdodb_name = "myReservationApp";
 	$host = "localhost";
 	$username = "root";
@@ -36,13 +31,16 @@
 				
 			//switch to handleReservation to create a new reservation
 			case "add_reservation":
-				include_once "router.php?handler=Reservation";
+				include_once "handleReservation.php";
 				break;
 				
 			//create a completed session with the data for the reservation to edit
 			//Stock the primary key of the reservation in the session
 			case "edit_reservation":
-				session_start();
+				if(session_status() == PHP_SESSION_NONE)
+				{
+					session_start();
+				}
 				$reservation = new reservation;
 				$_SESSION['no'] = $_POST['no'];
 				$data_reservation = rdu::selectReservation($_POST['no']);
@@ -62,7 +60,7 @@
 					}
 				}
 				$_SESSION['reservation'] = serialize($reservation);
-				include_once "router.php?handler=Reservation";
+				include_once "handleReservation.php";
 				break;
 			//display data from the database
 			default:

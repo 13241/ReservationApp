@@ -131,21 +131,30 @@
 		public static function addReservation($destination, $place_number, $insurance, $price, $list_persons)
 		{
 			//insert data into "reservations"
-			$statement = self::$pdo->prepare(
-				"INSERT INTO reservations(no, destination, place_number, insurance, price)
-					VALUES (NULL, :destination, :place_number, :insurance, :price);"
-			);
-			$statement->execute(array(
-				'destination' => $destination,
-				'place_number' => $place_number,
-				'insurance' => $insurance,
-				'price' => $price
-			));
+			try
+			{
+				$statement = self::$pdo->prepare(
+					"INSERT INTO reservations(no, destination, place_number, insurance, price)
+						VALUES (NULL, :destination, :place_number, :insurance, :price);"
+				);
+				$statement->execute(array(
+					'destination' => $destination,
+					'place_number' => $place_number,
+					'insurance' => $insurance,
+					'price' => $price
+				));
+			}
+			catch(Exception $e)
+			{
+				die('Erreur : '.$e->getMessage());
+			}
+			
 			
 			//get the primary key from the last reservation
 			$query = self::$pdo->query("SELECT LAST_INSERT_ID();");
 			$fetch = $query->fetch(PDO::FETCH_NUM);
 			$reservation_no = $fetch[0];
+			
 			//insert data into "people" for this reservation
 			$strStatement = "INSERT INTO people(id, name, age, reservation_no)
 				VALUES";
@@ -255,6 +264,37 @@
 			$statement->execute(array(
 				'name' => $name,
 				'age' => $age
+			));
+		}
+		
+		/**
+		* remove a person from people with primary key "id"
+		* @param int id : primary key of the person
+		* @return void
+		*/
+		public static function removePeople($id)
+		{
+			self::$pdo->exec("DELETE FROM people WHERE id = $id;") or exit(mysql_error());
+		}
+		
+		/**
+		* add a person in people with secondary key "reservation_no"
+		* @param int reservation_no : secondary key (reservation)
+		* @param str name : name of the person
+		* @param int age : age of the person
+		* @return void
+		*/
+		public static function addPeople($reservation_no, $name, $age)
+		{
+			//insert data into "people"
+			$statement = self::$pdo->prepare(
+				"INSERT INTO people(id, name, age, reservation_no)
+					VALUES (NULL, :name, :age, :reservation_no);"
+			);
+			$statement->execute(array(
+				'name' => $name,
+				'age' => $age,
+				'reservation_no' => $reservation_no
 			));
 		}
 	}

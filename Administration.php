@@ -12,6 +12,14 @@
 		</div>
 		
 		<form method = "POST" class = "indentedForm" action = "router.php">
+			<input type = "submit" name = 'add_reservation' formaction = "router.php?handler=Database&case=add_reservation"
+				value = "Ajouter une réservation"/>
+			<input type = "submit" id = 'remove_reservation' name = 'remove_reservation' 
+				formaction = "router.php?handler=Database&case=remove_reservation" 
+				value = "Supprimer la réservation" hidden />
+			<input type = "submit" id = 'edit_reservation' name = 'edit_reservation' 
+				formaction = "router.php?handler=Database&case=edit_reservation"
+				value = "Editer la réservation" hidden />
 			<?php
 				//upon clicking on a reservation row, display a new board containing the people in this reservation
 				
@@ -37,7 +45,12 @@
 					echo "</tr>";
 				}
 				echo "</table>";
-				
+			?>
+			<div id = 'info' class = "subTitle" hidden>
+				LISTE DES PERSONNES POUR LA RESERVATION N°
+				<input class = "subTitle" type = "text" name = 'no' id = 'no' value = "" size = "1" readonly />
+			</div>
+			<?php
 				if(count($pk)>0)
 				{
 					$sdata = rdu::selectReservationPeople($pk[0]);
@@ -78,24 +91,25 @@
 			var previousClicked = null;
 			function rowClick(strid)
 			{
-				try{
 				var item = document.getElementById(strid);
 				if(item.className!='clicked')
 				{
-					document.getElementById('peopleTable').hidden = false;
 					document.getElementById('pk_'+strid).hidden = false;
+					document.getElementById('no').value = strid;
 					item.className = 'clicked';
 					if(previousClicked != null)
 					{
 						previousClicked.className = 'lightBordered';
 						document.getElementById('pk_'+previousClicked.id).hidden = true;
 					}
+					else
+					{
+						document.getElementById('peopleTable').hidden = false;
+						document.getElementById('edit_reservation').hidden = false;
+						document.getElementById('remove_reservation').hidden = false;
+						document.getElementById('info').hidden = false;
+					}
 					previousClicked = item;
-				}
-				}
-				catch(e)
-				{
-					document.write(e);
 				}
 				return;
 			}

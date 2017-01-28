@@ -2,7 +2,12 @@
 	/**
 	* @author Abeloos Damien 13241
 	*/
-	session_start();// tester de retirer (redondance?)
+	
+	include_once "modelReservation.php";
+	include_once "modelPerson.php";
+	include_once "modelDatabase.php";
+	class_alias("reservationDbUtility", "rdu");
+	
 	if(!empty($_GET['handler']) && is_file("handle".$_GET['handler'].".php"))
 	{
 		include "handle".$_GET['handler'].".php";
