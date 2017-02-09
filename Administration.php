@@ -88,7 +88,15 @@
 		</form>
 		
 		<script language="JavaScript">
+			//element that was previously selected by click
 			var previousClicked = null;
+			/*
+			* upon clicking on the element "strid", which must be a row from the displayed table "reservations" :
+			* display the table people filtered for the selected reservation. The row's class is altered for a visual effect
+			* the row that was previously selected recovers its original class. The selected id is displayed (input 'no')
+			* @param str strid : id of the element
+			* @return void
+			*/
 			function rowClick(strid)
 			{
 				var item = document.getElementById(strid);
@@ -114,6 +122,12 @@
 				return;
 			}
 			function rowMouseOver(strid)
+			/*
+			* when the mouse passes over a row in the displayed table "reservations", The row's class is altered
+			* for a visual effect
+			* @param str strid : id of the element
+			* @return void
+			*/
 			{
 				var item = document.getElementById(strid);
 				if(item.className == 'lightBordered')
@@ -122,6 +136,12 @@
 				}
 				return;
 			}
+			/*
+			* when the mouse move away from a row in the displayed table "reservations", the row's class is altered
+			* to its original
+			* @param str strid : id of the element
+			* @return void
+			*/
 			function rowMouseOut(strid)
 			{
 				var item = document.getElementById(strid);

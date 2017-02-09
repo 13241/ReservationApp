@@ -43,7 +43,7 @@
 			
 		//first step form (Reservation) : destination, number of places, insurance
 		case "submit_reservation":
-			//2 bits validity check
+			//2 bits validity check : each bit contains the information true or false for a certain condition
 			$valid_encoding = 0b0;
 			
 			//validity check for input destination (bit index 0)
@@ -87,7 +87,7 @@
 		
 		//second step form (Detail) : n * (name, age)
 		case "submit_detail":
-			//2 * n bits validity check
+			//2 * n bits validity check (for each person, name and age)
 			$valid_encoding = 0b0;
 			
 			//n : number of desired persons
@@ -151,11 +151,18 @@
 					$reservation->getInsurance(), $reservation->getPrice());
 				
 				//alter people table
+				/**
+				* If possible, people whose name do not change keep the same id from table people, 
+				* to do that, 3 arrays are created with the id's as keys
+				* _people_nc : contains only the names of the people
+				* _people_na : contains the names and a number for each person that disinguishes people with the same name
+				* _people : contains the name, the number and the age for each person
+				*/
 				$data_people = rdu::selectReservationPeople($_SESSION['no']);
 				$previous_people_nc = array();
 				$previous_people_na = array();
 				$previous_people = array();
-				//create specific array with people previously in table "people"
+				//create specific arrays with people previously in table "people"
 				foreach($data_people as $row)
 				{
 					$person = array(
@@ -172,7 +179,7 @@
 				$current_people_nc = array();
 				$current_people_na = array();
 				$current_people = array();
-				//create specific array with people currently in the reservation
+				//create specific arrays with people currently in the reservation
 				foreach($list_persons as $row)
 				{
 					$person = array(
@@ -229,7 +236,6 @@
 				//go to fourth step, terminate session
 				$included = "Confirmation.php";
 			}
-			//go to fourth step, terminate session
 			include_once $included;
 			session_destroy();
 			break;

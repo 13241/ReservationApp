@@ -3,13 +3,6 @@
 	* @author Abeloos Damien 13241
 	*/
 	
-	
-	/* default connection parameters */
-	$pdodb_name = "myReservationApp";
-	$host = "localhost";
-	$username = "root";
-	$password = "";
-	
 	try
 	{
 		//create database & connection to it
@@ -34,8 +27,8 @@
 				include_once "handleReservation.php";
 				break;
 				
-			//create a completed session with the data for the reservation to edit
-			//Stock the primary key of the reservation in the session
+			//create a completed session with the data to edit the reservation
+			//stock the primary key of the reservation in the session
 			case "edit_reservation":
 				if(session_status() == PHP_SESSION_NONE)
 				{

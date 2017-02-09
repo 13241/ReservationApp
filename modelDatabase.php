@@ -149,7 +149,6 @@
 				die('Erreur : '.$e->getMessage());
 			}
 			
-			
 			//get the primary key from the last reservation
 			$query = self::$pdo->query("SELECT LAST_INSERT_ID();");
 			$fetch = $query->fetch(PDO::FETCH_NUM);
